@@ -1,0 +1,39 @@
+<main>
+    <mat-card class="w-full">
+        <form [formGroup]="oFormGroup" class="flex flex-col gap-4 p-4">
+
+            <mat-form-field class="w-full">
+                <mat-label>Fecha</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Cliente</mat-label>
+                <mat-select required formControlName="customer">
+                    <mat-option value="">Seleccione</mat-option>
+                    @for (customer of customerOpt(); track customer) {
+                        <mat-option [value]="customer.customerId">{{customer.firstName + ' ' + customer.lastName}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Tipo de servicio</mat-label>
+                <mat-select required formControlName="service">
+                    <mat-option value="">Seleccione</mat-option>
+                    @for (service of servicesOpt(); track service) {
+                        <mat-option [value]="service.serviceId"> {{ service.serviceName}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            @if(idReservationEdit() ===''){
+              <button mat-flat-button [disabled]="!oFormGroup.valid" (click)="createReservation()" color="primary">Guardar</button>
+            }@else {
+              <button mat-flat-button [disabled]="!oFormGroup.valid" (click)="updateReservation()" color="primary">Actualizar</button>
+            }
+        </form>
+    </mat-card>
+</main>
